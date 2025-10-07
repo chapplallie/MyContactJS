@@ -7,6 +7,8 @@ function UserPage({ email }) {
     const { userId } = useParams();
     const [contacts, setContacts] = useState([]);
     const navigate = useNavigate();
+    const [error, setError] = useState(null);
+
     
     useEffect(() => {
         const fetchData = async () => {
