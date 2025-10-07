@@ -1,7 +1,6 @@
 const isDevelopment = process.env.NODE_ENV === 'development';
 const baseUrl = isDevelopment 
-    ? 'http://localhost:5000' 
-    : 'https://mycontactjs.onrender.com';
+|| 'https://mycontactjs.onrender.com';
 const API_URL = `${baseUrl}/api`;
 
 export async function createUser(data) {
