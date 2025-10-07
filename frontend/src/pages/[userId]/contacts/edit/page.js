@@ -6,19 +6,24 @@ function EditContactPage() {
     const navigate = useNavigate();
     const { userId, contactId } = useParams();
     const [contact, setContact] = useState(null);
+    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchContact = async () => {
-            if (!contactId) {
-                throw new Error('Contact ID is required');
+            try {
+                if (!contactId) {
+                    throw new Error('Contact ID is required');
+                }
+                const data = await getContactByContactId(contactId);
+                setContact({
+                    _id: data._id,
+                    firstname: data.firstname,
+                    lastname: data.lastname,
+                    phone: data.phone
+                });
+            } catch (err) {
+                setError(err instanceof Error ? err.message : 'Erreur lors du chargement du contact');
             }
-            const data = await getContactByContactId(contactId);
-            setContact({
-                _id: data._id,
-                firstname: data.firstname,
-                lastname: data.lastname,
-                phone: data.phone
-            });        
         };
 
         if (contactId) {
@@ -28,6 +33,7 @@ function EditContactPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError(null);
         try {
             if (!contactId) {
                 throw new Error('Contact ID is required');
@@ -50,17 +56,25 @@ function EditContactPage() {
             }
 
             navigate(`/${userId}/contacts`);
-        } catch (error) {
-            console.error('Error updating contact:', error);
-            Error(error instanceof Error ? error.message : 'Failed to update contact');
+        } catch (err) {
+            console.error('Error updating contact:', err);
+            setError(err instanceof Error ? err.message : 'Failed to update contact');
         }
     };
 
-    if (!contact) return <div>Contact not found</div>;
+    if (!contact) return <div>Chargement du contact...</div>;
 
     return (
         <section className="max-w-2xl mx-auto p-4">
             <h1 className="text-2xl font-bold mb-6">Modifier le contact</h1>
+
+            {/* ✅ Affichage du message d’erreur */}
+            {error && (
+                <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+                    {error}
+                </div>
+            )}
+
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                     <label className="block text-sm font-medium text-gray-700">
