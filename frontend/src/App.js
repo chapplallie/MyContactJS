@@ -24,6 +24,7 @@ function App() {
                 </div>
             </header>
             <Routes>
+                <Route path='/' element={<Auth />} />
                 <Route path='/signup' element={<Signup />} />
                 <Route path='/auth' element={<Auth />} />
                 <Route path="/:userId/contacts" element={<UserPage email={localStorage.getItem('userEmail') || ''} />} />
