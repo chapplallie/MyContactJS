@@ -6,7 +6,6 @@ function EditContactPage() {
     const navigate = useNavigate();
     const { userId, contactId } = useParams();
     const [contact, setContact] = useState(null);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const fetchContact = async () => {
@@ -29,7 +28,6 @@ function EditContactPage() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError(null);
         try {
             if (!contactId) {
                 throw new Error('Contact ID is required');
@@ -54,7 +52,7 @@ function EditContactPage() {
             navigate(`/${userId}/contacts`);
         } catch (error) {
             console.error('Error updating contact:', error);
-            setError(error instanceof Error ? error.message : 'Failed to update contact');
+            Error(error instanceof Error ? error.message : 'Failed to update contact');
         }
     };
 
