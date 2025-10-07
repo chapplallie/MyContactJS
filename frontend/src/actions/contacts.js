@@ -1,4 +1,7 @@
-const baseUrl = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+const isDevelopment = process.env.NODE_ENV === 'development';
+const baseUrl = isDevelopment 
+    ? 'http://localhost:5000' 
+    : 'https://mycontactjs.onrender.com';
 const API_URL = `${baseUrl}/api`;
 
 export async function createContact(firstname, lastname, phone) {

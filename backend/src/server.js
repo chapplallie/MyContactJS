@@ -14,7 +14,10 @@ const PORT = process.env.PORT || 3000;
 const userRoute = new UserRoute();
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: ['http://localhost:3000', 'https://mycontacts-frontend.onrender.com'],
+    credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
